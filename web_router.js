@@ -15,14 +15,10 @@ var user = require('./controllers/user');
 var message = require('./controllers/message');
 var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
-var rss = require('./controllers/rss');
 var staticController = require('./controllers/static');
 var auth = require('./middlewares/auth');
 var limit = require('./middlewares/limit');
-var github = require('./controllers/github');
 var search = require('./controllers/search');
-var passport = require('passport');
-var configMiddleware = require('./middlewares/conf');
 var config = require('./config');
 
 var router = express.Router();
