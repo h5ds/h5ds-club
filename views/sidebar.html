@@ -10,9 +10,9 @@
     </div>
     <% } else { %>
     <div class='inner'>
-      <p><%= config.description %></p>
-
-      <div>
+      <!-- <p><%= config.description %></p> -->
+      <p>欢迎访问 H5DS 论坛</p>
+      <!-- <div>
         您可以
         <a href='/signin'>登录</a>
         或
@@ -23,7 +23,7 @@
             通过 GitHub 登录
           </span>
         </a>
-      </div>
+      </div> -->
     </div>
     <% } %>
   </div>
@@ -39,7 +39,7 @@
   <% } %>
 
   <% if (!current_user || !current_user.isAdvanced) { %>
-    <%- partial('./_ads') %>
+  <%- partial('./_ads') %>
   <% } %>
 
   <% if (typeof(no_reply_topics) !== 'undefined') { %>
@@ -78,7 +78,7 @@
   </div>
   <% } %>
 
-  <div class='panel'>
+  <!-- <div class='panel'>
     <div class='header'>
       <span class='col_fade'>友情社区</span>
     </div>
@@ -95,16 +95,11 @@
             <img src="<%- staticFile('/public/images/golangtc-logo.png') %>">
           </a>
         </li>
-        <div class="sep10"></div>
-        <li>
-          <a href="http://phphub.org/" target="_blank">
-            <img src="<%- staticFile('/public/images/phphub-logo.png') %>">
-          </a>
-        </li>
       </ol>
     </div>
-  </div>
-  <div class='panel'>
+  </div> -->
+
+  <!-- <div class='panel'>
     <div class='header'>
       <span class='col_fade'>客户端二维码</span>
     </div>
@@ -113,6 +108,6 @@
       <br />
       <a href="https://github.com/soliury/noder-react-native" target="_blank">客户端源码地址</a>
     </div>
-  </div>
+  </div> -->
 
 </div>

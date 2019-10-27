@@ -8,23 +8,15 @@
 
 var config = require('./config');
 
-if (!config.debug && config.oneapm_key) {
-  require('oneapm');
-}
-
 require('colors');
 var path = require('path');
 var Loader = require('loader');
 var LoaderConnect = require('loader-connect');
 var express = require('express');
 var session = require('express-session');
-var passport = require('passport');
 require('./middlewares/mongoose_log'); // 打印 mongodb 查询日志
 require('./models');
-var GitHubStrategy = require('passport-github').Strategy;
-var githubStrategyMiddleware = require('./middlewares/github_strategy');
 var webRouter = require('./web_router');
-var apiRouterV1 = require('./api_router_v1');
 var auth = require('./middlewares/auth');
 var errorPageMiddleware = require('./middlewares/error_page');
 var proxyMiddleware = require('./middlewares/proxy');
@@ -35,7 +27,6 @@ var compress = require('compression');
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
 var errorhandler = require('errorhandler');
-var cors = require('cors');
 var requestLog = require('./middlewares/request_log');
 var renderMiddleware = require('./middlewares/render');
 var logger = require('./common/logger');
@@ -105,18 +96,6 @@ app.use(
   })
 );
 
-// oauth 中间件
-app.use(passport.initialize());
-
-// github oauth
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-passport.use(new GitHubStrategy(config.GITHUB_OAUTH, githubStrategyMiddleware));
-
 // custom middleware
 app.use(auth.authUser);
 app.use(auth.blockUser());
@@ -160,7 +139,6 @@ app.use(
 );
 
 // routes
-app.use('/api/v1', cors(), apiRouterV1);
 app.use('/', webRouter);
 
 // error handler

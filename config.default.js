@@ -12,13 +12,13 @@ var config = {
     return !this.debug;
   }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
-  name: 'Nodeclub', // 社区名字
-  description: 'CNode：Node.js专业中文社区', // 社区的描述
-  keywords: 'nodejs, node, express, connect, socket.io',
+  name: 'H5DS 论坛', // 社区名字
+  description: '点石H5/H5类似易企秀/编辑器/页面制作/开发/生成工具/软件/源码/商业授权-免费H5页面制作工具-微信H5页面,微信朋友圈会议邀请函,电子贺卡,动态音乐相册,电子微杂志,节日贺卡等,点石H5提供海量H5微场景模板,轻松制作一键生成H5页面,为您助力移动自营销,酷炫展示H5企业自营销页面-点石H5官网', // 社区的描述
+  keywords: 'h5ds,h5ds官方下载,h5页面,h5页面制作,h5制作工具,h5教程,免费h5模板,h5场景制作,微信h5页面,h5页面制作工具,h5在线制作,微信h5,微信邀请函,微传单,电子邀请函,电子贺卡',
 
   // 添加到 html head 中的信息
-  site_headers: ['<meta name="author" content="EDP@TAOBAO" />'],
-  site_logo: '/public/images/cnodejs_light.svg', // default is `name`
+  site_headers: ['<meta name="author" content="" />'],
+  site_logo: 'https://www.h5ds.com/assets/images/logo2.png', // default is `name`
   site_icon: '/public/images/cnode_icon_32.png', // 默认没有 favicon, 这里填写网址
   // 右上角的导航区
   site_navs: [
@@ -35,10 +35,10 @@ var config = {
   cnzz_tracker_id: '',
 
   // mongodb 配置
-  db: 'mongodb://127.0.0.1/node_club_dev',
+  db: 'mongodb://192.168.1.200:27017/node_club_dev',
 
   // redis 配置，默认是本地
-  redis_host: '127.0.0.1',
+  redis_host: '192.168.1.200',
   redis_port: 6379,
   redis_db: 0,
   redis_password: '',
@@ -53,14 +53,14 @@ var config = {
   list_topic_count: 20,
 
   // RSS配置
-  rss: {
-    title: 'CNode：Node.js专业中文社区',
-    link: 'http://cnodejs.org',
-    language: 'zh-cn',
-    description: 'CNode：Node.js专业中文社区',
-    //最多获取的RSS Item数量
-    max_rss_items: 50
-  },
+  // rss: {
+  //   title: 'CNode：Node.js专业中文社区',
+  //   link: 'http://cnodejs.org',
+  //   language: 'zh-cn',
+  //   description: 'CNode：Node.js专业中文社区',
+  //   //最多获取的RSS Item数量
+  //   max_rss_items: 50
+  // },
 
   log_dir: path.join(__dirname, 'logs'),
 
@@ -83,11 +83,11 @@ var config = {
   admins: { user_login_name: true },
 
   // github 登陆的配置
-  GITHUB_OAUTH: {
-    clientID: 'your GITHUB_CLIENT_ID',
-    clientSecret: 'your GITHUB_CLIENT_SECRET',
-    callbackURL: 'http://cnodejs.org/auth/github/callback'
-  },
+  // GITHUB_OAUTH: {
+  //   clientID: 'your GITHUB_CLIENT_ID',
+  //   clientSecret: 'your GITHUB_CLIENT_SECRET',
+  //   callbackURL: 'http://cnodejs.org/auth/github/callback'
+  // },
   // 是否允许直接注册（否则只能走 github 的方式）
   allow_sign_up: true,
 
@@ -120,11 +120,11 @@ var config = {
   tabs: [['share', '分享'], ['ask', '问答'], ['job', '招聘']],
 
   // 极光推送
-  jpush: {
-    appKey: 'YourAccessKeyyyyyyyyyyyy',
-    masterSecret: 'YourSecretKeyyyyyyyyyyyyy',
-    isDebug: false
-  },
+  // jpush: {
+  //   appKey: 'YourAccessKeyyyyyyyyyyyy',
+  //   masterSecret: 'YourSecretKeyyyyyyyyyyyyy',
+  //   isDebug: false
+  // },
 
   create_post_per_day: 1000, // 每个用户一天可以发的主题数
   create_reply_per_day: 1000, // 每个用户一天可以发的评论数
