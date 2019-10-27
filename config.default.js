@@ -8,22 +8,22 @@ var config = {
   // debug 为 true 时，用于本地调试
   debug: true,
 
-  get mini_assets() { return !this.debug; }, // 是否启用静态文件的合并压缩，详见视图中的Loader
+  get mini_assets() {
+    return !this.debug;
+  }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
   name: 'Nodeclub', // 社区名字
   description: 'CNode：Node.js专业中文社区', // 社区的描述
   keywords: 'nodejs, node, express, connect, socket.io',
 
   // 添加到 html head 中的信息
-  site_headers: [
-    '<meta name="author" content="EDP@TAOBAO" />'
-  ],
+  site_headers: ['<meta name="author" content="EDP@TAOBAO" />'],
   site_logo: '/public/images/cnodejs_light.svg', // default is `name`
   site_icon: '/public/images/cnode_icon_32.png', // 默认没有 favicon, 这里填写网址
   // 右上角的导航区
   site_navs: [
     // 格式 [ path, title, [target=''] ]
-    [ '/about', '关于' ]
+    ['/about', '关于']
   ],
   // cdn host，如 http://cnodejs.qiniudn.com
   site_static_host: '', // 静态文件存储域名
@@ -72,7 +72,7 @@ var config = {
       user: 'club@126.com',
       pass: 'club'
     },
-    ignoreTLS: true,
+    ignoreTLS: true
   },
 
   //weibo app key
@@ -104,7 +104,7 @@ var config = {
     origin: 'http://your qiniu domain',
     // 如果vps在国外，请使用 http://up.qiniug.com/ ，这是七牛的国际节点
     // 如果在国内，此项请留空
-    uploadURL: 'http://xxxxxxxx',
+    uploadURL: 'http://xxxxxxxx'
   },
 
   // 文件上传配置
@@ -117,23 +117,19 @@ var config = {
   file_limit: '1MB',
 
   // 版块
-  tabs: [
-    ['share', '分享'],
-    ['ask', '问答'],
-    ['job', '招聘'],
-  ],
+  tabs: [['share', '分享'], ['ask', '问答'], ['job', '招聘']],
 
   // 极光推送
   jpush: {
     appKey: 'YourAccessKeyyyyyyyyyyyy',
     masterSecret: 'YourSecretKeyyyyyyyyyyyyy',
-    isDebug: false,
+    isDebug: false
   },
 
   create_post_per_day: 1000, // 每个用户一天可以发的主题数
   create_reply_per_day: 1000, // 每个用户一天可以发的评论数
   create_user_per_ip: 1000, // 每个 ip 每天可以注册账号的次数
-  visit_per_day: 1000, // 每个 ip 每天能访问的次数
+  visit_per_day: 1000 // 每个 ip 每天能访问的次数
 };
 
 if (process.env.NODE_ENV === 'test') {
