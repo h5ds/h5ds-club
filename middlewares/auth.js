@@ -1,9 +1,11 @@
+var util = require('util');
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var Message = require('../proxy').Message;
 var config = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy = require('../proxy').User;
+var axios = require('axios').default;
 
 /**
  * 需要管理员权限
@@ -96,13 +98,89 @@ exports.authUser = function(req, res, next) {
   if (req.session.user) {
     ep.emit('get_user', req.session.user);
   } else {
-    var auth_token = req.signedCookies[config.auth_cookie_name];
-    if (!auth_token) {
+    // var auth_token = req.signedCookies[config.auth_cookie_name];
+    // if (!auth_token) {
+    //   return next();
+    // }
+
+    // var auth = auth_token.split('$$$$');
+    // var user_id = auth[0];
+    // console.log(req.cookies);
+    // ep.done('get_user')(null, { _id: 132 });
+    // UserProxy.getUserById(user_id, ep.done('get_user'));
+
+    // 1. 解析cookie，如果有utoken，且有效，则认为是一个登录用户
+    const utoken = req.cookies['utoken'];
+    if (!utoken) {
       return next();
     }
+    const h5dsConf = config.h5dsConf;
+    const apiUrl = `${h5dsConf.apiHost}/backend/get-user`;
+    axios.get(apiUrl, { headers: { 'access-token': h5dsConf.accessToken }, params: { utoken } }).then(res => {
+      const h5dsUser = res.data;
+      if (!h5dsUser) {
+        return next();
+      }
+      const loginname = h5dsUser.userName;
+      util
+        .promisify(UserProxy.getUserByLoginName)(loginname)
+        .then(bbsUser => {
+          // 如果查不到，则先将 h5ds 的用户同步到论坛
+          if (!bbsUser) {
+            return (
+              util
+                .promisify(UserProxy.newAndSave)(
+                  h5dsUser.nickName,
+                  loginname,
+                  '',
+                  h5dsUser.unionId,
+                  h5dsUser.avatarUrl,
+                  true
+                )
+                // 同步完成后，再查一次
+                .then(() => util.promisify(UserProxy.getUserByLoginName)(loginname))
+            );
+          }
+          // 如果查到了，就直接返回
+          return bbsUser;
+        })
+        .then(bbsUser => {
+          // 如果用户正常，则设置登录状态
+          if (bbsUser) {
+            return ep.done('get_user')(null, bbsUser);
+          }
+          next();
+        });
+    });
 
-    var auth = auth_token.split('$$$$');
-    var user_id = auth[0];
-    UserProxy.getUserById(user_id, ep.done('get_user'));
+    // User.newAndSave(loginname, loginname, passhash, email, avatarUrl, false, function(err) {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   // 发送激活邮件
+    //   mail.sendActiveMail(email, utility.md5(email + passhash + config.session_secret), loginname);
+    //   res.render('sign/signup', {
+    //     success: '欢迎加入 ' + config.name + '！我们已给您的注册邮箱发送了一封邮件，请点击里面的链接来激活您的帐号。'
+    //   });
+    // });
+    // const user = {
+    //   is_block: false,
+    //   score: 10,
+    //   topic_count: 1,
+    //   reply_count: 1,
+    //   follower_count: 0,
+    //   following_count: 0,
+    //   collect_tag_count: 0,
+    //   collect_topic_count: 1,
+    //   active: true,
+    //   receive_reply_mail: false,
+    //   receive_at_mail: false,
+    //   _id: '5db55aee3eb01d40d48f0a3c',
+    //   name: 'admin',
+    //   loginname: '1234',
+    //   avatar: 'http://www.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?size=48',
+    //   __v: 0
+    // };
+    // ep.done('get_user')(null, user);
   }
 };
